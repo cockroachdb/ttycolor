@@ -31,8 +31,8 @@ func TestColor(t *testing.T) {
 		red, reset string
 	}{
 		{"nil", nil, "", ""},
-		{"profile8", profile8, "\033[0;31;49m", "\033[0m"},
-		{"profile256", profile256, "\033[38;5;160m", "\033[0m"},
+		{"profile8", Profile8, "\033[0;31;49m", "\033[0m"},
+		{"profile256", Profile256, "\033[38;5;160m", "\033[0m"},
 	} {
 		t.Run(fmt.Sprintf("profile=%s", tc.name), func(t *testing.T) {
 			StdoutProfile = tc.profile
