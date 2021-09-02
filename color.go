@@ -73,8 +73,8 @@ const (
 // terminals support 8 colors, some 256, others none at all.
 type Profile map[Code][]byte
 
-// For terminals with 8-color support.
-var profile8 = Profile{
+// Profile8 is suitable for terminals with 8-color support.
+var Profile8 = Profile{
 	// Keep these in the same order as the color codes above.
 	Black:   []byte("\033[0;30;49m"),
 	Red:     []byte("\033[0;31;49m"),
@@ -88,8 +88,8 @@ var profile8 = Profile{
 	Reset:   []byte("\033[0m"),
 }
 
-// For terminals with 256-color support.
-var profile256 = Profile{
+// Profile256 is suitable for terminals with 256-color support.
+var Profile256 = Profile{
 	// Keep these in the same order as the color codes above.
 	Black:   []byte("\033[38;5;0m"),
 	Red:     []byte("\033[38;5;160m"),
@@ -136,7 +136,7 @@ func Stderr(code Code) {
 // DetectProfile configures a profile suitable for the given file output.
 func DetectProfile(f *os.File) Profile {
 	// Console does not support our color profiles but Powershell supports
-	// profile256. Sadly, detecting the shell is not well supported, so default to
+	// Profile256. Sadly, detecting the shell is not well supported, so default to
 	// no-color.
 	if runtime.GOOS == "windows" {
 		return nil
@@ -152,15 +152,15 @@ func DetectProfile(f *os.File) Profile {
 		term := os.Getenv("TERM")
 		switch term {
 		case "ansi", "tmux":
-			return profile8
+			return Profile8
 		case "st":
-			return profile256
+			return Profile256
 		default:
 			if strings.HasSuffix(term, "256color") {
-				return profile256
+				return Profile256
 			}
 			if strings.HasSuffix(term, "color") || strings.HasPrefix(term, "screen") {
-				return profile8
+				return Profile8
 			}
 		}
 	}
