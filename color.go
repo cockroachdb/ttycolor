@@ -133,7 +133,8 @@ func Stderr(code Code) {
 	_, _ = os.Stderr.Write(StderrProfile[code])
 }
 
-func detectProfile(f *os.File) Profile {
+// DetectProfile configures a profile suitable for the given file output.
+func DetectProfile(f *os.File) Profile {
 	// Console does not support our color profiles but Powershell supports
 	// profile256. Sadly, detecting the shell is not well supported, so default to
 	// no-color.
@@ -167,7 +168,7 @@ func detectProfile(f *os.File) Profile {
 }
 
 // StdoutProfile is the Profile to use for stdout.
-var StdoutProfile = detectProfile(os.Stdout)
+var StdoutProfile = DetectProfile(os.Stdout)
 
 // StderrProfile is the Profile to use for stderr.
-var StderrProfile = detectProfile(os.Stderr)
+var StderrProfile = DetectProfile(os.Stderr)
